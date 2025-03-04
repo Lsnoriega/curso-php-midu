@@ -9,7 +9,7 @@ class NextMovie {
         private string $poster_url,
         private string $release_date,
         private string $overview,
-        private string $following_production
+        private array $following_production
     ) {
         
     }
@@ -41,12 +41,24 @@ class NextMovie {
             $data["poster_url"],
             $data["release_date"],
             $data["overview"],
-            $data["following_production"]["title"] ?? "Desconocido",
+            $data["following_production"] ?? "Desconocido",
         );
     }
 
     public function get_data(){
         return get_object_vars($this);
+    }
+
+    public static function create_from_data(array $data): NextMovie {
+        return new self(
+            $data["title"],
+            $data["days_until"],
+            $data["type"],
+            $data["poster_url"],
+            $data["release_date"],
+            $data["overview"],
+            $data["following_production"] ?? []
+        );
     }
 }
 

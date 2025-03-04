@@ -1,8 +1,9 @@
+<!-- <html data-theme = dark> -->
 <style>
-    :root {
-        color-scheme: light dark;
-    }
-
+    /* :root {
+        color-scheme: dark;
+    } */
+        
     body {
         display: flex;
         align-items: center;
