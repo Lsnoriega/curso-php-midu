@@ -1,69 +1,15 @@
 <?php
 
-const MCU_API = "https://www.whenisthenextmcufilm.com/api";
+require_once "consts.php";
+require_once "functions.php";
+require_once "classes/next_movie.php";
 
-$ch = curl_init(MCU_API);
-
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$result = curl_exec($ch);
-$data = json_decode($result, true);
-
-curl_close($ch);
+$next_movie = NextMovie::get_and_create_api(URL_API);
+$next_movie_data = $next_movie->get_data();
 
 
+render_template("head", $next_movie_data);
+render_template("main", array_merge($next_movie_data, ["until_message" => $next_movie->until_message()]));
+render_template("styles", $next_movie_data);
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Próxima película de Marvel</title>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
->
-</head>
-<body>
-    <main>
-        
-        <section>
-            <img src="<?= $data["poster_url"];?>" alt="Poster de <?= $data["title"];?>" width="200" style="border-radius: 16px">
-        </section>
-        <hgroup>
-            <h3>
-                <?= $data["title"];?> Se Estrena en <?= $data["days_until"];?> Dias
-            </h3>
-            <p>Fecha de Estreno: <?= $data["release_date"];?></p>
-            <p>la siguiente es: <?= $data["following_production"]["title"];?></p>
-        </hgroup>
-    </main>
-    
-</body>
-</html>
-
-<style>
-    :root {
-        color-scheme: light dark;
-    }
-
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    section {
-        display: flex;
-        justify-content: center;
-    }
-
-    hgroup {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        text-align: center;
-    }
-</style>

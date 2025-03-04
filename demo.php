@@ -17,4 +17,6 @@ $outputAge = match (true) {
     $age < 50 => 'eres un adulto viejo',
     $age > 50 => 'eres viejo'
 };
+
+
 ?>
